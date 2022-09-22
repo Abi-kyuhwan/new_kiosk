@@ -22,6 +22,19 @@ public class AdminService {
 	AdminMapper adminMapper;
 	
 	public void addMenu(MenuInfo menuInfo) {
+		if(menuInfo.getMenuNo() != null) {
+			this.modMenu(menuInfo);
+		} else {
+			this.addNewMenu(menuInfo);
+		}
+	}
+	
+	private void modMenu(MenuInfo menuInfo) {
+		
+		adminMapper.updateMenu(menuInfo);
+	}
+	
+	private void addNewMenu(MenuInfo menuInfo) {
 		String fileNm = "";
 		if(!(menuInfo.getMenuImgNm() == null)) {
 			fileNm = String.valueOf(System.currentTimeMillis()) + '_' + 
@@ -39,5 +52,11 @@ public class AdminService {
 	
 	public List<MenuInfo> getMenuList(SchMenuInfo schMenuInfo){
 		return adminMapper.selectMenuList(schMenuInfo);
+	}
+
+	public MenuInfo getMenu(Long menuNo) {
+		SchMenuInfo schMenuInfo = new SchMenuInfo();
+		schMenuInfo.setMenuNo(menuNo);
+		return adminMapper.selectMenuList(schMenuInfo).get(0);
 	}
 }

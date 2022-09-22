@@ -32,7 +32,8 @@
 			MENU_PRC,
 			MENU_DESC,
 			MENU_STOCK_QTY,
-			DISP_YN
+			DISP_YN as menu_disp_yn,
+			MENU_IMG_NM AS FILE_NM
 		FROM TB_MENU
 		WHERE 1=1
 		<if test="menuNo != '' and menuNo != null">
@@ -42,5 +43,15 @@
 			and menu_nm like CONCAT('%', #{menuNm}, '%')
 		</if>
 	</select>
+
+	<update id="updateMenu" parameterType="edu.sungil.foods.web.domain.dto.SchMenuInfo">
+		update TB_MENU
+			set MENU_NM = #{menuNm}
+				,MENU_PRC = #{menuPrc}
+				,MENU_DESC = #{menuDesc}
+				,MENU_STOCK_QTY = #{menuStockQty}
+				,DISP_YN = #{menuDispYn}
+		WHERE MENU_NO = #{menuNo}
+	</update>
    
 </mapper>

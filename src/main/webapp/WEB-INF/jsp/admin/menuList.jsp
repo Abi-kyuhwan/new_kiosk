@@ -130,7 +130,8 @@
 											<label class=" form-control-label">메뉴번호</label>
 										</div>
 										<div class="col-12 col-md-9">
-											<p class="form-control-static" id="menuNm" name="menuNm">1</p>
+											<input type="text" id="menuNo" name="menuNo" readonly
+												placeholder="메뉴 번호" class="form-control">
 										</div>
 									</div>
 									<div class="row form-group">
@@ -225,6 +226,28 @@
 			var menuNo = td.eq(0).text();
 			
 			alert(menuNo);
+			
+			var pUrl = '/admin/menu/' + menuNo;
+			$.ajax({
+				url : pUrl,
+				method : "GET",
+				dataType : 'json',
+				success : function(data){
+					console.log(data);
+					alert('성공');
+					$('#menuNo').val(data.menuNo);
+					$('#menuNm').val(data.menuNm);
+					$('#menuPrc').val(data.menuPrc);
+					$('#menuDesc').val(data.menuDesc);
+					$('#menuStockQty').val(data.menuStockQty);
+					// $('#DispYn').val(data.DispYn);
+					$(":radio[name='menuDispYn'][value="+ data.DispYn +"]").attr('checked', true);
+					$('#largeModal').modal('toggle');
+				},
+				error : function(data){
+					alert('에러');
+				}
+			});
 		});
 	});
 
@@ -256,6 +279,7 @@
 			processData : false,
 			
 			success : function(data){
+				console.log(data);
 				alert("성공");
 			},
 			error : function(data){
@@ -288,11 +312,11 @@
 			return false;
 		}
 		
-		if(!data.menuImgNm.value){
-			alert("이미지를 선택해주세요.");
-			data.menuImgNm.focus();
-			return false;
-		}
+		// if(!data.menuImgNm.value){
+		// 	alert("이미지를 선택해주세요.");
+		// 	data.menuImgNm.focus();
+		// 	return false;
+		// }
 		return true;
 	}
 	
