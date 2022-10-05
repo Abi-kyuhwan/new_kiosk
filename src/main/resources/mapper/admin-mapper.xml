@@ -82,7 +82,7 @@
    			menu_nm,
    			ord_qty,
    			ord_amt,
-   			ord_stat
+   			if(ord_stat = '10', '접수', '완료') ord_stat
    		from tb_ord
    		where 1=1
    			<if test="ordNo != '' and ordNo != null">
@@ -95,4 +95,10 @@
    				and ord_dt >= date(subdate(now(), interval #{ordDt} DAY))
    			</if>
    </select>
+   
+   <update id="updateStatus" parameterType="edu.sungil.foods.web.domain.dto.OrdInfo">
+   		update tb_ord
+   			set ord_stat = '20'
+   		where ord_no = #{ordNo}
+   </update>
 </mapper>
